@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Cost Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://www.shutterstock.com/image-photo/health-medical-life-insurance-whole-260nw-740206291.jpg'); /* Path to your image file */
+            background-size: cover;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Medical Insurance Cost Prediction</h1>
+        <form action="/predict" method="post">
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required value="{{ request.form['age'] if request.form.get('age') }}" ><br>
+            
+            <label for="sex">Sex:</label>
+            <select id="sex" name="sex" required>
+                <option value="male" {% if request.form.get('sex') == 'male' %} selected {% endif %}>Male</option>
+                <option value="female" {% if request.form.get('sex') == 'female' %} selected {% endif %}>Female</option>
+            </select><br>
+            
+            <label for="bmi">BMI:</label>
+            <input type="number" id="bmi" name="bmi" step="0.01" required value="{{ request.form['bmi'] if request.form.get('bmi') }}" ><br>
+            
+            <label for="children">Number of Children:</label>
+            <input type="number" id="children" name="children" required value="{{ request.form['children'] if request.form.get('children') }}" ><br>
+            
+            <label for="smoker">Smoker:</label>
+            <select id="smoker" name="smoker" required>
+                <option value="yes" {% if request.form.get('smoker') == 'yes' %} selected {% endif %}>Yes</option>
+                <option value="no" {% if request.form.get('smoker') == 'no' %} selected {% endif %}>No</option>
+            </select><br>
+            
+            <label for="region">Region:</label>
+            <select id="region" name="region" required>
+                <option value="southwest" {% if request.form.get('region') == 'southwest' %} selected {% endif %}>Southwest</option>
+                <option value="southeast" {% if request.form.get('region') == 'southeast' %} selected {% endif %}>Southeast</option>
+                <option value="northwest" {% if request.form.get('region') == 'northwest' %} selected {% endif %}>Northwest</option>
+                <option value="northeast" {% if request.form.get('region') == 'northeast' %} selected {% endif %}>Northeast</option>
+            </select><br>
+            
+            <button type="submit">Predict</button>
+        </form>
+        {% if prediction %}
+            <h2>Prediction: {{ prediction }}</h2>
+        {% endif %}
+    </div>
+</body>
+</html>
